@@ -1,4 +1,4 @@
-export default class Columns {
+module.exports = class Columns {
     /**
      * this.el    - A container element
      * this.sizes - A list of column properties
