@@ -1,6 +1,10 @@
 # Columns
 Columns is a fast, simple, column-based layout implementation (for fixed width elements) written in ECMAScript 6. This is a no-frills implementation and does not include any animations or depend on any third-party library.
 
+<p align="center">
+    <img src="http://stevenortiz.me/static/github/columns.png">
+</p>
+
 ## Usage
 
 Add the GitHub URL to your dependencies in `project.json`.
