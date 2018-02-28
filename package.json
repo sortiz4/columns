@@ -2,15 +2,20 @@
   "name": "columns",
   "version": "1.0.0",
   "description": "A column-based layout implementation.",
+  "homepage": "https://github.com/sortiz4/columns#readme",
+  "bugs": {
+    "url": "https://github.com/sortiz4/columns/issues"
+  },
+  "license": "MIT",
+  "author": "sortiz4",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sortiz4/columns.git"
   },
-  "author": "sortiz4",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/sortiz4/columns/issues"
-  },
-  "homepage": "https://github.com/sortiz4/columns#readme"
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  }
 }
