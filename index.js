@@ -28,7 +28,7 @@ export default class Columns {
         this.update();
 
         // Attach an event listener
-        this.event = this.update.bind(this);        
+        this.event = this.update.bind(this);
         window.addEventListener('resize', this.event);
     }
 
