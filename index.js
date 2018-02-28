@@ -1,6 +1,6 @@
-module.exports = class Columns {
+export default class Columns {
     /**
-     * this.el    - A container element
+     * this.el - A container element
      * this.sizes - A list of column properties
      * this.event - A bound copy of the update method
      */
@@ -11,7 +11,6 @@ module.exports = class Columns {
      * be the minimum width of the window in pixels).
      */
     constructor(el, sizes) {
-
         // Normalize the element
         if(typeof el === 'string') {
             el = document.querySelector(el);
@@ -67,7 +66,8 @@ module.exports = class Columns {
      */
     props() {
         for(let i = this.sizes.length-1; i >= 0; i--) {
-            if(this.sizes[i].hasOwnProperty('min') && this.sizes[i].min <= window.innerWidth) {
+            if(this.sizes[i].hasOwnProperty('min')
+                && this.sizes[i].min <= window.innerWidth) {
                 return this.sizes[i];
             }
         }
