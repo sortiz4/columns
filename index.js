@@ -1,9 +1,18 @@
 export default class Columns {
     /**
-     * this.el - A container element
-     * this.sizes - A list of column properties
-     * this.event - A bound copy of the update method
+     * Selects the appropriate properties based on the width of the window.
      */
+    get _props() {
+        for(let i = this.sizes.length-1; i >= 0; i--) {
+            if(
+                this.sizes[i].hasOwnProperty('min') &&
+                this.sizes[i].min <= window.innerWidth
+            ) {
+                return this.sizes[i];
+            }
+        }
+        return this.sizes[0];
+    }
 
     /**
      * Initializes the layout and attaches an event listener to the window.
@@ -15,7 +24,7 @@ export default class Columns {
         if(typeof el === 'string') {
             el = document.querySelector(el);
         } else if(!(el instanceof Element)) {
-            throw new TypeError('Unrecognized element type.');
+            throw new TypeError('Unrecognized element type');
         }
         this.el = el;
         this.sizes = sizes;
@@ -25,62 +34,19 @@ export default class Columns {
         for(let child of this.el.children) {
             child.style.position = 'absolute';
         }
-        this.update();
+        this._update();
 
         // Attach an event listener
-        this.event = this.update.bind(this);
+        this.event = this._update.bind(this);
         window.addEventListener('resize', this.event);
     }
 
     /**
-     * Resets the layout and detaches the event listener.
-     */
-    destroy() {
-        this.reset();
-        this.detach();
-    }
-
-    /**
-     * Detaches the event listener from the window.
-     */
-    detach() {
-        window.removeEventListener('resize', this.event);
-    }
-
-    /**
-     * Resets the layout to its original state (modified properties only).
-     */
-    reset() {
-        this.el.style.height = null;
-        this.el.style.position = null;
-        for(let child of this.el.children) {
-            child.style.top = null;
-            child.style.left = null;
-            child.style.position = null;
-        }
-    }
-
-    /**
-     * Selects the appropriate properties based on the width of the window.
-     * @private
-     */
-    props() {
-        for(let i = this.sizes.length-1; i >= 0; i--) {
-            if(this.sizes[i].hasOwnProperty('min')
-                && this.sizes[i].min <= window.innerWidth) {
-                return this.sizes[i];
-            }
-        }
-        return this.sizes[0];
-    }
-
-    /**
      * Updates the layout using the appropriate properties.
-     * @private
      */
-    update() {
-        let props = this.props(); // Layout properties (based on window size)
-        let containerHeight = 0;  // New container height (largest column)
+    _update() {
+        let props = this._props; // Layout properties (based on window size)
+        let containerHeight = 0; // New container height (largest column)
         let elementWidth = 0; // Width of each element (constant)
         let offsetX = 0; // Horizontal offset for the next child
         let offsetY = 0; // Vertical offset for the next child
@@ -118,5 +84,33 @@ export default class Columns {
 
         // Apply the container height
         this.el.style.height = `${containerHeight}px`;
+    }
+
+    /**
+     * Resets the layout and detaches the event listener.
+     */
+    destroy() {
+        this.reset();
+        this.detach();
+    }
+
+    /**
+     * Detaches the event listener from the window.
+     */
+    detach() {
+        window.removeEventListener('resize', this.event);
+    }
+
+    /**
+     * Resets the layout to its original state (modified properties only).
+     */
+    reset() {
+        this.el.style.height = null;
+        this.el.style.position = null;
+        for(let child of this.el.children) {
+            child.style.top = null;
+            child.style.left = null;
+            child.style.position = null;
+        }
     }
 }
