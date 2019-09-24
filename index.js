@@ -1,23 +1,21 @@
-export default class Columns {
+export class Columns {
     /**
      * Selects the appropriate properties based on the width of the window.
      */
     get _props() {
-        for(let i = this.sizes.length-1; i >= 0; i--) {
+        for(let i = this._sizes.length - 1; i >= 0; i--) {
             if(
-                this.sizes[i].hasOwnProperty('min') &&
-                this.sizes[i].min <= window.innerWidth
+                this._sizes[i].hasOwnProperty('min') &&
+                this._sizes[i].min <= window.innerWidth
             ) {
-                return this.sizes[i];
+                return this._sizes[i];
             }
         }
-        return this.sizes[0];
+        return this._sizes[0];
     }
 
     /**
      * Initializes the layout and attaches an event listener to the window.
-     * Sizes must be given in ascending order (media queries are assumed to
-     * be the minimum width of the window in pixels).
      */
     constructor(el, sizes) {
         // Normalize the element
@@ -26,40 +24,40 @@ export default class Columns {
         } else if(!(el instanceof Element)) {
             throw new TypeError('Unrecognized element type');
         }
-        this.el = el;
-        this.sizes = sizes;
+        this._el = el;
+        this._sizes = sizes;
 
         // Initialize the layout
-        this.el.style.position = 'relative';
-        for(let child of this.el.children) {
+        el.style.position = 'relative';
+        for(const child of el.children) {
             child.style.position = 'absolute';
         }
         this._update();
 
-        // Attach an event listener
-        this.event = this._update.bind(this);
-        window.addEventListener('resize', this.event);
+        // Attach the event listener
+        this._event = this._update.bind(this);
+        window.addEventListener('resize', this._event);
     }
 
     /**
      * Updates the layout using the appropriate properties.
      */
     _update() {
-        let props = this._props; // Layout properties (based on window size)
-        let containerHeight = 0; // New container height (largest column)
-        let elementWidth = 0; // Width of each element (constant)
+        const props = this._props; // The most appropriate properties
+        let containerHeight = 0; // Height of the tallest column
+        let elementWidth = 0; // Width of each child element
         let offsetX = 0; // Horizontal offset for the next child
         let offsetY = 0; // Vertical offset for the next child
 
         // Iterate over the number of columns
         for(let i = 0; i < props.columns; i++) {
-            offsetY = 0; // Reset the vertical offset for each column
+            offsetY = 0; // Reset the vertical offset for the next column
 
             // Iterate over each column element
-            for(let j = i; j < this.el.children.length; j += props.columns) {
+            for(let j = i; j < this._el.children.length; j += props.columns) {
 
-                // Update the child offset
-                let child = this.el.children[j];
+                // Update the childs position
+                const child = this._el.children[j];
                 child.style.left = `${offsetX}px`;
                 child.style.top = `${offsetY}px`;
 
@@ -72,7 +70,7 @@ export default class Columns {
             }
 
             // Update the horizontal offset for each column
-            // and remove the latest vertical gutter addition
+            // and remove the last vertical gutter addition
             offsetX += elementWidth + props.gutter;
             offsetY -= props.gutter;
 
@@ -83,34 +81,35 @@ export default class Columns {
         }
 
         // Apply the container height
-        this.el.style.height = `${containerHeight}px`;
+        this._el.style.height = `${containerHeight}px`;
     }
 
     /**
      * Resets the layout and detaches the event listener.
      */
     destroy() {
-        this.reset();
-        this.detach();
+        return this.reset().detach();
     }
 
     /**
      * Detaches the event listener from the window.
      */
     detach() {
-        window.removeEventListener('resize', this.event);
+        window.removeEventListener('resize', this._event);
+        return this;
     }
 
     /**
-     * Resets the layout to its original state (modified properties only).
+     * Resets the layout to its original state.
      */
     reset() {
-        this.el.style.height = null;
-        this.el.style.position = null;
-        for(let child of this.el.children) {
+        this._el.style.height = null;
+        this._el.style.position = null;
+        for(const child of this._el.children) {
             child.style.top = null;
             child.style.left = null;
             child.style.position = null;
         }
+        return this;
     }
 }
