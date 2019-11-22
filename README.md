@@ -8,7 +8,6 @@ animations or depend on any third-party library.
 </p>
 
 ## Usage
-
 Add the GitHub path to your dependencies in `project.json`.
 
 ```json
@@ -43,7 +42,6 @@ and `reset` respectively. `detach` removes the resizing event listener from the
 and its children. `destroy` simply calls `reset` and `detach`.
 
 ## Settings
-
 `sizes` must be an array of objects describing the layout at different window
 widths. Each object must contain a number of `columns`, a `gutter` size in
 pixels, and a `min` size in pixels (the minimum width of the window for this
@@ -52,7 +50,6 @@ require a `min` property. Additional layouts are optional, but must be provided
 in ascending order of `min`.
 
 ### Example
-
 ```js
 const sizes = [{
     columns: 1,

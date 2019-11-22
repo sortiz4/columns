@@ -1,20 +1,5 @@
 export class Columns {
     /**
-     * Selects the appropriate properties based on the width of the window.
-     */
-    get _props() {
-        for(let i = this._sizes.length - 1; i >= 0; i--) {
-            if(
-                this._sizes[i].hasOwnProperty('min') &&
-                this._sizes[i].min <= window.innerWidth
-            ) {
-                return this._sizes[i];
-            }
-        }
-        return this._sizes[0];
-    }
-
-    /**
      * Initializes the layout and attaches an event listener to the window.
      */
     constructor(el, sizes) {
@@ -40,10 +25,25 @@ export class Columns {
     }
 
     /**
+     * Selects the appropriate properties based on the width of the window.
+     */
+    _props() {
+        for(let i = this._sizes.length - 1; i >= 0; i--) {
+            if(
+                this._sizes[i].hasOwnProperty('min') &&
+                this._sizes[i].min <= window.innerWidth
+            ) {
+                return this._sizes[i];
+            }
+        }
+        return this._sizes[0];
+    }
+
+    /**
      * Updates the layout using the appropriate properties.
      */
     _update() {
-        const props = this._props; // The most appropriate properties
+        const props = this._props(); // Collect the properties
         let containerHeight = 0; // Height of the tallest column
         let elementWidth = 0; // Width of each child element
         let offsetX = 0; // Horizontal offset for the next child
@@ -51,7 +51,7 @@ export class Columns {
 
         // Iterate over the number of columns
         for(let i = 0; i < props.columns; i++) {
-            offsetY = 0; // Reset the vertical offset for the next column
+            offsetY = 0;
 
             // Iterate over each column element
             for(let j = i; j < this._el.children.length; j += props.columns) {
@@ -64,14 +64,14 @@ export class Columns {
                 // Update the vertical offset for the next child
                 offsetY += child.offsetHeight + props.gutter;
 
-                // Update the latest element width with each iteration
-                // (this fixes a minor alignment bug on initialization)
+                // Update the latest element width with each child
                 elementWidth = child.offsetWidth;
             }
 
             // Update the horizontal offset for each column
-            // and remove the last vertical gutter addition
             offsetX += elementWidth + props.gutter;
+
+            // Remove the last vertical gutter
             offsetY -= props.gutter;
 
             // Update the container height to fit the largest column
