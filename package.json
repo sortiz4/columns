@@ -1,6 +1,9 @@
 {
   "name": "columns",
+  "author": "Steven Ortiz",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "index.js"
+  "main": "index.js",
+  "description": "A column-based layout implementation.",
+  "homepage": "https://github.com/sortiz4/columns"
 }
