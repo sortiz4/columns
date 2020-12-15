@@ -4,7 +4,7 @@ elements). This is a no-frills implementation and does not include any
 animations or depend on any third-party library.
 
 <p align="center">
-    <img src="http://stevenortiz.me/static/github/columns.png">
+  <img src="http://stevenortiz.me/static/github/columns.png">
 </p>
 
 ## Usage
@@ -20,10 +20,10 @@ of the gutter (media queries are the recommended solution).
 
 ```html
 <div id="container">
-    <div>1</div>
-    <div>2</div>
-    ...
-    <div>n</div>
+  <div>1</div>
+  <div>2</div>
+  ...
+  <div>n</div>
 </div>
 ```
 
@@ -32,7 +32,8 @@ element or a CSS selector. `sizes` must be an array and is described in more
 detail below under the `Settings` section.
 
 ```js
-import {Columns} from 'columns';
+import { Columns } from 'columns';
+
 const columns = new Columns(el, sizes);
 ```
 
@@ -51,16 +52,9 @@ in ascending order of `min`.
 
 ### Example
 ```js
-const sizes = [{
-    columns: 1,
-    gutter: 20,
-}, {
-    min: 640,
-    columns: 2,
-    gutter: 25,
-}, {
-    min: 960,
-    columns: 3,
-    gutter: 30,
-}];
+const sizes = [
+  { columns: 1, gutter: 20 },
+  { min: 640, columns: 2, gutter: 25 },
+  { min: 960, columns: 3, gutter: 30 },
+];
 ```
