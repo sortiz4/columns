@@ -4,7 +4,7 @@ elements). This is a no-frills implementation and does not include any
 animations or depend on any third-party library.
 
 <p align="center">
-  <img src="http://stevenortiz.me/static/github/columns.png">
+  <img src="http://www.stevenortiz.me/assets/github/columns.png">
 </p>
 
 ## Usage
